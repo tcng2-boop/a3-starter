@@ -11,6 +11,7 @@ import ds_client
 current_profile = None
 current_file = None
 admin_mode = False
+DSP_port = 3001
 
 
 def main():
@@ -95,11 +96,11 @@ def journal():
                         print("ERROR")
                         return
                     if current_profile.dsuserver is not None:
-                        if not ds_client.post(current_profile.dsuserver,
+                        if not ds_client.send(current_profile.dsuserver,
+                                              DSP_port,
                                               current_profile.username,
                                               current_profile.password,
                                               "Updating bio",
-                                              None,
                                               new_bio):
                             print("Failed to post to DSP server.")
                     else:
@@ -119,11 +120,12 @@ def journal():
                         print("ERROR")
                         return
                     if current_profile.dsuserver is not None:
-                        if not ds_client.post(current_profile.dsuserver,
+                        if not ds_client.send(current_profile.dsuserver,
+                                              DSP_port,
                                               current_profile.username,
                                               current_profile.password,
-                                              new_post,
-                                              current_profile.bio):
+                                              "Updating bio",
+                                              new_post):
                             print("Failed to post to DSP server.")
                     else:
                         print("No DSP server associated with this profile.")
@@ -189,6 +191,9 @@ def create(line):
                 current_profile.password = password
                 current_profile.bio = bio
                 server = input("DSP Server (127.0.0.1): ")
+                if server.strip() == "":
+                    server = "127.0.0.1"
+                current_profile.dsuserver = server 
                 current_file = str(full_path)
                 try:
                     current_profile.save_profile(str(full_path))

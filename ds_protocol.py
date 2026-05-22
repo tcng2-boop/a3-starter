@@ -28,9 +28,9 @@ def extract_json(json_msg:str) -> DataTuple:
   try:
     response = json.loads(json_msg)
     json_obj = response["response"]
-    response_type = response["type"]
-    message = response["message"]
-    token = response["token"]
+    response_type = json_msg["type"]
+    message = json_msg["message"]
+    token = json_msg.get("token", "")
   except json.JSONDecodeError:
     print("Json cannot be decoded.")
 
