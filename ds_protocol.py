@@ -26,11 +26,11 @@ def extract_json(json_msg:str) -> DataTuple:
   TODO: replace the pseudo placeholder keys with actual DSP protocol keys
   '''
   try:
-    response = json.loads(json_msg)
-    json_obj = response["response"]
-    response_type = json_msg["type"]
-    message = json_msg["message"]
-    token = json_msg.get("token", "")
+    json_obj = json.loads(json_msg)
+    response_type = json_obj['response']['type']
+    message = json_obj['response']['message']
+    token = json_obj['response'].get('token', '')
+
   except json.JSONDecodeError:
     print("Json cannot be decoded.")
 

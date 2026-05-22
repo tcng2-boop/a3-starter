@@ -100,9 +100,11 @@ def journal():
                                               DSP_port,
                                               current_profile.username,
                                               current_profile.password,
-                                              "Updating bio",
+                                              "Bio has been updated!",
                                               new_bio):
                             print("Failed to post to DSP server.")
+                        else:
+                            print("Your bio has been updated on DSP server!")
                     else:
                         print("No DSP server associated with this profile.")
                 else:
@@ -124,7 +126,6 @@ def journal():
                                               DSP_port,
                                               current_profile.username,
                                               current_profile.password,
-                                              "Updating bio",
                                               new_post):
                             print("Failed to post to DSP server.")
                     else:

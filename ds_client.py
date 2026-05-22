@@ -41,13 +41,16 @@ def send(server:str, port:int, username:str, password:str, message:str, bio:str=
       send_stream.flush()
 
       response = recv_stream.readline()
+      
       response_data = ds_protocol.extract_json(response)
+      
 
       if response_data.type != "ok":
         client.close()
         return False
       
       token = response_data.token
+      
 
       post_message = json.dumps({
         "token": token,
@@ -61,9 +64,11 @@ def send(server:str, port:int, username:str, password:str, message:str, bio:str=
       send_stream.flush()
 
       post_response = recv_stream.readline()
+      
       post_response_data = ds_protocol.extract_json(post_response)
+      
 
-      if post_response_data["type"] != "ok":
+      if post_response_data.type != "ok":
         client.close()
         return False
       if bio is not None:
@@ -79,9 +84,11 @@ def send(server:str, port:int, username:str, password:str, message:str, bio:str=
         send_stream.flush()
 
         bio_response = recv_stream.readline()
+        #print("DEBUG bio response:", bio_response)  # add this
         bio_response_data = ds_protocol.extract_json(bio_response)
+        #print("DEBUG bio type:", bio_response_data.type)  # add this
 
-        if bio_response_data["type"] != "ok":
+        if bio_response_data.type != "ok":
           client.close()
           return False
     
